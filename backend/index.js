@@ -1,0 +1,83 @@
+const express = require('express');
+const cors = require('cors');
+const mysql = require('mysql2');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',       
+  password: '1234',      
+  database: 'integrador'
+});
+
+db.connect(err => {
+  if (err) {
+    console.error('Error al conectar la BD:', err);
+  } else {
+    console.log('Conectado a la base de datos MySQL');
+  }
+});
+
+
+app.get('/', (req, res) => {
+  res.send('Backend funcionando');
+});
+
+app.get('/ventas', (req, res) => {
+  const { id_cliente, fecha } = req.query;
+
+  let sql = `
+    SELECT v.id, v.fecha, v.total, c.nombre AS cliente 
+    FROM ventas v 
+    JOIN clientes c ON v.id_cliente = c.id 
+    WHERE 1=1`;
+  const params = [];
+
+  if (id_cliente) {
+  sql += ' AND v.id_cliente = ?'; 
+  params.push(id_cliente);
+}
+
+
+  if (fecha) {
+    sql += ' AND DATE(v.fecha) = ?';
+    params.push(fecha);
+  }
+
+  db.query(sql, params, (err, results) => {
+    if (err) {
+      console.error('Error al consultar ventas:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.post('/ventas', (req, res) => {
+  const { id_cliente, fecha,  total } = req.body;
+
+  if (!id_cliente || !fecha || !total) {
+    return res.status(400).json({ error: 'Faltan datos' });
+  }
+
+  const sql = 'INSERT INTO ventas (id_cliente, fecha, total) VALUES (?, ?, ?)';
+  const params = [id_cliente, fecha, total];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      console.error('Error al agregar venta:', err);
+      res.status(500).json({ error: 'Error al agregar venta' });
+    } else {
+      res.status(201).json({ mensaje: 'Venta agregada correctamente', id: result.insertId });
+    }
+  });
+});
+
+const PORT = 4000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
