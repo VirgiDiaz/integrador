@@ -1,22 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 
-export default function Sidebar({ cambiarVista }) {
+function Sidebar() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <div>☰</div>
-      <ul>
-        <li>
-          <button onClick={() => cambiarVista('home')}>Home</button>
-        </li>
-        <li>
-          <button onClick={() => cambiarVista('registro')}>Registrar Producto</button>
-        </li>
-        <li>
-          <button onClick={() => cambiarVista('ventas')}>Ventas</button>
-        </li>
-        <li>
-          <button onClick={() => alert('Configuración no implementado')}>Configuración</button>
-        </li>
-      </ul>
+      <button onClick={() => navigate('/')}>Inicio</button>
+      <button onClick={() => navigate('/registro')}>Registrar producto</button>
     </div>
   );
 }
+
+export default Sidebar;
+

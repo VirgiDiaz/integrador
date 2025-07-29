@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components.jsx/sidebar';
-import Home from './pages/home';
-import RegistroProducto from './pages/registroProducto';
-import Ventas from './pages/ventas';
+import Home from './pages.jsx/home';
+import RegistroProducto from './pages.jsx/registroProducto';
+import Ventas from './pages.jsx/ventas';
+import SeleccionarCliente from './pages.jsx/seleccionarCliente';
+import RegistroCliente from './pages.jsx/registrarCliente';
 
 function App() {
-  const [vista, setVista] = useState('home');
-
   return (
     <div>
-      <Sidebar cambiarVista={setVista} />
+      <Sidebar />
       <div>
-        {vista === 'home' && <Home />}
-        {vista === 'registro' && <RegistroProducto />}
-        {vista === 'ventas' && <Ventas />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/registro" element={<RegistroProducto />} />
+          <Route path="/ventas" element={<Ventas />} />
+          <Route path="/seleccionar-cliente" element={<SeleccionarCliente />} />
+          <Route path="/registro-cliente" element={<RegistroCliente />} />
+        </Routes>
       </div>
     </div>
   );
