@@ -21,14 +21,19 @@ db.connect(err => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Backend funcionando');
-});
-
 app.get('/productos', (req, res) => {
-  const { nombre } = req.query;
-  const sql = 'SELECT * FROM productos WHERE nombre LIKE ?';
-  const params = [`%${nombre}%`];
+  const { nombre, codigo } = req.query;
+
+  let sql = 'SELECT * FROM productos';
+  let params = [];
+
+  if (codigo) {
+    sql += ' WHERE codigo = ?';
+    params.push(codigo);
+  } else if (nombre) {
+    sql += ' WHERE nombre LIKE ?';
+    params.push(`%${nombre}%`);
+  }
 
   db.query(sql, params, (err, results) => {
     if (err) {
@@ -38,6 +43,7 @@ app.get('/productos', (req, res) => {
     }
   });
 });
+
 
 app.get('/ventas', (req, res) => {
   const { id_cliente, fecha } = req.query;

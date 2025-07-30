@@ -4,8 +4,9 @@ import Sidebar from './components.jsx/sidebar';
 import Home from './pages.jsx/home';
 import RegistroProducto from './pages.jsx/registroProducto';
 import Ventas from './pages.jsx/ventas';
-import SeleccionarCliente from './pages.jsx/seleccionarCliente';
-import RegistroCliente from './pages.jsx/registrarCliente';
+import RegistrarCliente from './pages.jsx/registrarCliente';
+import ProductosPorDeposito from './pages.jsx/productosPorDeposito';
+
 
 function App() {
   return (
@@ -16,8 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/registro" element={<RegistroProducto />} />
           <Route path="/ventas" element={<Ventas />} />
-          <Route path="/seleccionar-cliente" element={<SeleccionarCliente />} />
-          <Route path="/registro-cliente" element={<RegistroCliente />} />
+          <Route path="/registrar-cliente" element={<RegistrarCliente />} />
+          <Route path="/productos-deposito" element={<ProductosPorDeposito />} />
         </Routes>
       </div>
     </div>

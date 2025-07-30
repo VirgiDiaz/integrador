@@ -37,7 +37,8 @@ function Ventas() {
 
       if (dataCliente.length === 0) {
         // Redirigir a registro de cliente y pasar el DNI
-        navigate('/registro-cliente', { state: { idCliente, productos } });
+        navigate('/registrar-cliente', { state: { idCliente, productos } });
+
         return;
       }
 

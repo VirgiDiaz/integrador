@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Camara from '../components.jsx/Camara';
 
+
 export default function Home() {
   const navigate = useNavigate();
 
@@ -18,8 +19,8 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h2>Bienvenido al Home</h2>
+    <div className="home-container">
+      <h2 className="titulo">Bienvenido al Home</h2>
       <Camara onCapturar={simularReconocimiento} />
     </div>
   );
