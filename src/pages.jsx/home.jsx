@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Camara from '../components.jsx/Camara';
-
+import '../styles/app.css'; // Asegurate de importar los estilos
 
 export default function Home() {
   const navigate = useNavigate();
@@ -19,9 +19,11 @@ export default function Home() {
   };
 
   return (
-    <div className="home-container">
+    <div className="container">
       <h2 className="titulo">Bienvenido al Home</h2>
-      <Camara onCapturar={simularReconocimiento} />
+      <div className="section">
+        <Camara onCapturar={simularReconocimiento} />
+      </div>
     </div>
   );
 }

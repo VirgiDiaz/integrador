@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import '../styles/app.css';
 
 const RegistrarCliente = () => {
   const location = useLocation();
@@ -33,10 +34,10 @@ const RegistrarCliente = () => {
   };
 
   return (
-    <div className="registro-cliente">
+    <div className="container">
       <h2>Registrar Cliente</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="section">
           <label>ID (DNI):</label>
           <input
             type="text"
@@ -44,9 +45,11 @@ const RegistrarCliente = () => {
             value={cliente.id}
             onChange={handleChange}
             required
+            placeholder="Ingrese DNI"
           />
         </div>
-        <div>
+
+        <div className="section">
           <label>Nombre:</label>
           <input
             type="text"
@@ -54,9 +57,11 @@ const RegistrarCliente = () => {
             value={cliente.nombre}
             onChange={handleChange}
             required
+            placeholder="Ingrese nombre completo"
           />
         </div>
-        <div>
+
+        <div className="section">
           <label>Email:</label>
           <input
             type="email"
@@ -64,8 +69,10 @@ const RegistrarCliente = () => {
             value={cliente.email}
             onChange={handleChange}
             required
+            placeholder="correo@ejemplo.com"
           />
         </div>
+
         <button type="submit">Registrar Cliente</button>
       </form>
     </div>

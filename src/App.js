@@ -6,6 +6,9 @@ import RegistroProducto from './pages.jsx/registroProducto';
 import Ventas from './pages.jsx/ventas';
 import RegistrarCliente from './pages.jsx/registrarCliente';
 import ProductosPorDeposito from './pages.jsx/productosPorDeposito';
+import './styles/app.css';
+import Clientes from './pages.jsx/clientes';
+
 
 
 function App() {
@@ -19,6 +22,7 @@ function App() {
           <Route path="/ventas" element={<Ventas />} />
           <Route path="/registrar-cliente" element={<RegistrarCliente />} />
           <Route path="/productos-deposito" element={<ProductosPorDeposito />} />
+          <Route path="/clientes" element={<Clientes />} />
         </Routes>
       </div>
     </div>

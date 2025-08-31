@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import '../styles/camara.css'; // Nuevo archivo para estilos de la cámara
 
 export default function Camara({ onCapturar }) {
   const videoRef = useRef(null);
@@ -20,12 +21,12 @@ export default function Camara({ onCapturar }) {
   };
 
   return (
-    <div>
-      <video ref={videoRef} autoPlay width="300" />
-      <br />
-      <button onClick={iniciarCamara}>Iniciar Cámara</button>
-      <button onClick={capturar}>Capturar Imagen</button>
+    <div className="camara-container">
+      <video ref={videoRef} autoPlay className="camara-video" />
+      <div className="camara-buttons">
+        <button onClick={iniciarCamara}>Iniciar Cámara</button>
+        <button onClick={capturar}>Capturar Imagen</button>
+      </div>
     </div>
   );
 }
-
