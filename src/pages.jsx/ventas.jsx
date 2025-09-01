@@ -5,8 +5,11 @@ import '../styles/app.css';
 function Ventas() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // 🔹 Estado inicial de productos y cliente
+  const [productos, setProductos] = useState(location.state?.reconocidos || []);
+  const [noReconocidos, setNoReconocidos] = useState(location.state?.noReconocidos || []);
   const [codigo, setCodigo] = useState('');
-  const [productos, setProductos] = useState([]);
   const [idCliente, setIdCliente] = useState(location.state?.cliente?.id || '');
 
   // 🔹 Función para calcular el precio unitario según cantidad
@@ -47,13 +50,11 @@ function Ventas() {
   // 🔹 Eliminar producto (frontend + backend)
   const eliminarProducto = async (id, index) => {
     try {
-      // Eliminar en backend
       const res = await fetch(`http://localhost:4000/productos/${id}`, {
         method: 'DELETE',
       });
 
       if (res.ok) {
-        // Eliminar en frontend
         const nuevaLista = [...productos];
         nuevaLista.splice(index, 1);
         setProductos(nuevaLista);
@@ -108,6 +109,7 @@ function Ventas() {
         alert('Venta registrada exitosamente');
         setProductos([]);
         setIdCliente('');
+        setNoReconocidos([]);
       } else {
         alert('Error al registrar la venta');
       }
@@ -120,6 +122,7 @@ function Ventas() {
     <div className="container">
       <h1>Ventas</h1>
 
+      {/* Tabla de productos reconocidos */}
       <div className="section">
         <h2>Productos:</h2>
         <table className="tabla-productos">
@@ -163,6 +166,19 @@ function Ventas() {
         </table>
       </div>
 
+      {/* Productos no reconocidos */}
+      {noReconocidos.length > 0 && (
+        <div className="section">
+          <h3>Productos no reconocidos:</h3>
+          <ul>
+            {noReconocidos.map((p, i) => (
+              <li key={i}>{p.nombre}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Agregar producto manual */}
       <div className="section">
         <h3>Agregar producto manual:</h3>
         <input
@@ -174,6 +190,7 @@ function Ventas() {
         <button onClick={agregarProductoManual}>Agregar producto</button>
       </div>
 
+      {/* Total y registro */}
       <div className="section">
         <h3>Total: ${total}</h3>
 

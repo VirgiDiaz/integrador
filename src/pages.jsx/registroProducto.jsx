@@ -15,6 +15,8 @@ const RegistroProducto = () => {
     ]
   });
 
+  const [imagenes, setImagenes] = useState([]);
+
   const handleChange = (e) => {
     setProducto({
       ...producto,
@@ -28,6 +30,10 @@ const RegistroProducto = () => {
     setProducto({ ...producto, preciosPorCantidad: nuevosPrecios });
   };
 
+  const handleImagenChange = (e) => {
+    setImagenes([...e.target.files]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,6 +43,7 @@ const RegistroProducto = () => {
     }
 
     try {
+      // 1. Registrar producto
       const res = await fetch('http://localhost:4000/productos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,6 +61,23 @@ const RegistroProducto = () => {
 
       if (!res.ok) throw new Error('Error al registrar producto');
 
+      const data = await res.json();
+      const productoId = data.id;
+
+      // 2. Subir imágenes si existen
+      if (imagenes.length > 0) {
+        const formData = new FormData();
+        imagenes.forEach(img => formData.append("imagenes", img));
+        const imgRes = await fetch(`http://localhost:4000/productos/${productoId}/imagenes`, {
+          method: "POST",
+          body: formData
+        });
+        if (!imgRes.ok) {
+          const errData = await imgRes.json();
+          throw new Error(errData.error || "Error al subir imágenes");
+        }
+      }
+
       alert('Producto registrado con éxito');
 
       // Reset formulario
@@ -69,6 +93,7 @@ const RegistroProducto = () => {
           { cantidadMinima: 30, precio: '' }
         ]
       });
+      setImagenes([]);
     } catch (error) {
       console.error(error);
       alert('Error al registrar el producto');
@@ -149,6 +174,19 @@ const RegistroProducto = () => {
             onChange={handleChange}
             required
           />
+        </div>
+
+        <div className="section">
+          <label>Imágenes del producto:</label>
+          <input
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            onChange={handleImagenChange}
+          />
+          {imagenes.length > 0 && (
+            <p>{imagenes.length} archivo(s) seleccionado(s)</p>
+          )}
         </div>
 
         <button type="submit">Confirmar</button>
